@@ -511,4 +511,9 @@ if not aria2_options:
     aria2_options = aria2.client.get_global_option()
 else:
     a2c_glo = {op: aria2_options[op] for op in aria2c_global if op in aria2_options}
-    aria2.set_global_options(a2c_glo)
+    aria2.set_global_options(a2c_glo) 
+
+scheduler = AsyncIOScheduler(timezone=str(get_localzone()), event_loop=bot_loop)
+PORT = environ.get('PORT')
+Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT}", shell=True)
+alive = Popen(["python3", "alive.py"])
